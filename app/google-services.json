@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "521146641260",
+    "firebase_url": "https://samiofergames-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "samiofergames",
+    "storage_bucket": "samiofergames.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521146641260:android:839d1f5c585875d44ee149",
+        "android_client_info": {
+          "package_name": "com.example.gamealerts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521146641260-u7fhupqd4u37jdi8k6otec6qnerdi2e4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGF3dJ6MlJ-qrTKWfKXTxl7dqQp4wCahU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521146641260-u7fhupqd4u37jdi8k6otec6qnerdi2e4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
