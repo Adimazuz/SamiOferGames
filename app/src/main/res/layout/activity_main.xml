@@ -4,38 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/green_grad_croped_circ"
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/mainText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        android:id="@+id/textView"
+        android:layout_width="214dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:text="המשחק הקרוב"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertToggle" />
 
     <Switch
-        android:id="@+id/switch2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:id="@+id/alertToggle"
+        android:layout_width="189dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:text="התראות"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="משחקים קרובים: "
-        app:layout_constraintTop_toBottomOf="@+id/switch2"
-        tools:layout_editor_absoluteX="185dp" />
+    <TextView
+        android:id="@+id/nextDate"
+        android:layout_width="323dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="תאריך"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/nextTeams"
+        android:layout_width="178dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="קבוצות"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextDate" />
+
+    <TextView
+        android:id="@+id/otherGames"
+        android:layout_width="334dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="5dp"
+        android:gravity="right"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="139dp"
+        android:layout_height="118dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/alertToggle"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pikpng_com_soccer_png_520496" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="115dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="28dp"
+        android:gravity="right"
+        android:text=" משחקים הבאים:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.868"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextTeams" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
