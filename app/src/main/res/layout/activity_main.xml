@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/green_grad_croped_circ"
+    android:background="@drawable/green_grad_croped"
     tools:context=".MainActivity">
 
     <TextView
@@ -17,6 +17,7 @@
         android:gravity="center"
         android:text="המשחק הקרוב"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alertToggle" />
@@ -27,6 +28,7 @@
         android:layout_height="88dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
+        android:onClick="onAlertsToggleClick"
         android:text="התראות"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +44,7 @@
         android:gravity="center"
         android:text="תאריך"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -64,7 +67,6 @@
         android:layout_height="210dp"
         android:layout_marginTop="5dp"
         android:gravity="right"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,5 +94,16 @@
         app:layout_constraintHorizontal_bias="0.868"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextTeams" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="openSettingsActivity"
+        app:layout_constraintEnd_toStartOf="@+id/nextTeams"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextDate"
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

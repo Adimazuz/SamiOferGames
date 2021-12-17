@@ -1,6 +1,8 @@
 package com.example.gamealerts;
 
-public class GameInfo {
+import java.io.Serializable;
+
+public class GameInfo implements Serializable {
     public String mTeam1;
     public String mTeam2;
     public String mDate;

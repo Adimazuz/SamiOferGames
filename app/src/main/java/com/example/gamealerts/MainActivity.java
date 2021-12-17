@@ -1,14 +1,16 @@
 package com.example.gamealerts;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,33 +20,41 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.CountDownLatch;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
+    String TAG = "SamiOferGameAlerts";
 
-    String TAG = "test";
-    ArrayList<GameInfo> mGames = new ArrayList<>();
+    private DataManager mDataManager;
+    private ArrayList<GameInfo> mGames = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDataManager = new DataManager(this);
 
-        updateGamesInfo();
-
-        setAlarm();
-
+        updateNotificationsToggleUI();
+        if(mDataManager.isRemoteDataFetchingNeeded()) {
+            getGamesDataFromRemote();
+        }
+        else {
+            mGames = mDataManager.getLocalGamesData();
+            updateGamesInfo(mGames);
+        }
+        setNotificationsAlarm();
     }
 
-    public void setAlarm() {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(Calendar.HOUR_OF_DAY, 23);
-//        calendar.set(Calendar.MINUTE, 47);
-//        calendar.set(Calendar.SECOND, 0);
-//
-//        if (calendar.getTime().compareTo(new Date()) < 0)
-//            calendar.add(Calendar.DAY_OF_MONTH, 1);
+    private void setNotificationsAlarm() {
+        Random rand = new Random();
+        int max = 60;
+        int min = 0;
+        int randomSecond = rand.nextInt((max - min) + 1) + min;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, randomSecond);
 
         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -58,51 +68,67 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void  updateGamesInfo() {
-        ArrayList<GameInfo> games = new ArrayList<>();
+    private void getGamesDataFromRemote() {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("games");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshots) {
+                mGames = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : dataSnapshots.getChildren()) {
                     String team1 = (String) dataSnapshot.child("team1").getValue();
                     String team2 = (String) dataSnapshot.child("team2").getValue();
                     String date = (String) dataSnapshot.child("date").getValue();
                     String time = (String) dataSnapshot.child("time").getValue();
-                    games.add(new GameInfo(team1, team2, date, time));
+                    mGames.add(new GameInfo(team1, team2, date, time));
                 }
-                String text = "";
-                for (GameInfo game : games) {
-                    text += game.mTeam1 + " - " + game.mTeam2 + " " + game.mDate + " " + game.mTime + "\n\n";
-                }
-                String nextGames = "";
-                for(int i=0; i< games.size(); i++)
-                {
-                    if(i == 0)
-                    {
-                        setContentView(R.layout.activity_main);
-                        TextView nextDateView = (TextView)findViewById(R.id.nextDate);
-                        TextView nextTeamsView = (TextView)findViewById(R.id.nextTeams);
-                        nextDateView.setText(games.get(0).mDate + ' ' +  games.get(0).mTime);
-                        nextTeamsView.setText(games.get(0).mTeam1 + " - " + games.get(0).mTeam2);
-                    }
-                    else
-                    {
-                        for (GameInfo game : games) {
-                            nextGames += game.mTeam1 + " - " + game.mTeam2 + " " + game.mDate + " " + game.mTime + "\n\n";
-                        }
-                    }
-                }
-                TextView otherGamesView =  (TextView)findViewById(R.id.otherGames);
-                otherGamesView.setText(nextGames);
+                mGames = mDataManager.filterPassedGames(mGames);
+                mDataManager.setGamesData(mGames);
+                updateGamesInfo(mGames);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w(TAG, "Failed to read value.", databaseError.toException());
             }
         });
+    }
 
+    private void updateNotificationsToggleUI() {
+        boolean isNotificationsActive = mDataManager.getIsNotificationsActive();
+        Switch s =  (Switch) findViewById(R.id.alertToggle);
+        s.setChecked(isNotificationsActive);
+    }
+
+    private void  updateGamesInfo(ArrayList<GameInfo> gamesInfo) {
+        String nextGames = "";
+        for(int i=0; i< gamesInfo.size(); i++)
+        {
+            if(i == 0)
+            {
+                TextView nextDateView = (TextView)findViewById(R.id.nextDate);
+                TextView nextTeamsView = (TextView)findViewById(R.id.nextTeams);
+                nextDateView.setText(gamesInfo.get(0).mDate + ' ' +  gamesInfo.get(0).mTime);
+                nextTeamsView.setText(gamesInfo.get(0).mTeam1 + " - " + gamesInfo.get(0).mTeam2);
+            }
+            else
+            {
+                for (GameInfo game : gamesInfo) {
+                    nextGames += game.mDate + " " + game.mTime + " : "
+                            + game.mTeam1 + " - " + game.mTeam2 + " " + "\n\n";
+                }
+            }
+        }
+        TextView otherGamesView =  (TextView)findViewById(R.id.otherGames);
+        otherGamesView.setText(nextGames);
+    }
+
+    public void onAlertsToggleClick(View view) {
+        Switch s = (Switch) view;
+        mDataManager.setIsNotificationsActive(s.isChecked());
+    }
+
+    public void openSettingsActivity(View view) {
+//        Intent intent = new Intent(this, SettingsActivity.class);
+//        startActivity(intent);
     }
 }
 

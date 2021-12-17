@@ -4,11 +4,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/stadium"
+        android:label="Sami Ofer Game Alerts"
+        android:roundIcon="@mipmap/stadium"
         android:supportsRtl="true"
         android:theme="@style/Theme.GameAlerts">
+        android:supportsLtr="false"
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -18,9 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver
-            android:name=".NotificationReceiver"></receiver>
 
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>
