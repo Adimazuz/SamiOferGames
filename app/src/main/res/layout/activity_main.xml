@@ -16,7 +16,7 @@
         android:layout_marginEnd="24dp"
         android:gravity="center"
         android:text="המשחק הקרוב"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +24,8 @@
 
     <Switch
         android:id="@+id/alertToggle"
-        android:layout_width="189dp"
-        android:layout_height="88dp"
+        android:layout_width="146dp"
+        android:layout_height="34dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:onClick="onAlertsToggleClick"
@@ -39,11 +39,11 @@
         android:layout_width="323dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:text="תאריך"
-        android:textSize="34sp"
+        android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,13 +51,14 @@
 
     <TextView
         android:id="@+id/nextTeams"
-        android:layout_width="178dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="310dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="קבוצות"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextDate" />
 
@@ -65,45 +66,42 @@
         android:id="@+id/otherGames"
         android:layout_width="334dp"
         android:layout_height="210dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:gravity="right"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.337"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="139dp"
-        android:layout_height="118dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/alertToggle"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pikpng_com_soccer_png_520496" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="115dp"
         android:layout_height="25dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:gravity="right"
         android:text=" משחקים הבאים:"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.868"
+        app:layout_constraintHorizontal_bias="0.918"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextTeams" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="openSettingsActivity"
-        app:layout_constraintEnd_toStartOf="@+id/nextTeams"
-        app:layout_constraintHorizontal_bias="0.491"
+    <TextView
+        android:id="@+id/nextGameHour"
+        android:layout_width="218dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="שעה"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/nextTeams"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextDate"
-        app:srcCompat="@android:drawable/ic_menu_preferences" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,9 +7,8 @@
         android:icon="@mipmap/stadium"
         android:label="Sami Ofer Game Alerts"
         android:roundIcon="@mipmap/stadium"
-        android:supportsRtl="true"
+        android:layoutDirection="ltr"
         android:theme="@style/Theme.GameAlerts">
-        android:supportsLtr="false"
         <activity
             android:name=".MainActivity"
             android:exported="true">

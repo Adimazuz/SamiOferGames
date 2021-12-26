@@ -43,10 +43,10 @@ class NotificationSender {
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         boolean isTodayNotified = mDataManager.getIsDayNotified(Days.values()[day - 1]);
         GameInfo closestGame = allGames.get(0);
-//        if (mDataManager.getIsNotificationsActive() && isGameToday(closestGame) && isTodayNotified)
-//        {
+        if (mDataManager.getIsNotificationsActive() && isGameToday(closestGame) && isTodayNotified)
+        {
             createGameNotification(closestGame);
-//        }
+        }
     }
 
     private boolean isGameToday(GameInfo gameInfo) {

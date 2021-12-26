@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -33,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide(); //hide the title bar
         mDataManager = new DataManager(this);
 
         updateNotificationsToggleUI();
-        if(mDataManager.isRemoteDataFetchingNeeded()) {
+        if(true /*mDataManager.isRemoteDataFetchingNeeded()*/) {
             getGamesDataFromRemote();
         }
         else {
@@ -53,14 +56,22 @@ public class MainActivity extends AppCompatActivity {
         int randomSecond = rand.nextInt((max - min) + 1) + min;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 9);
-        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, randomSecond);
 
         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5, pendingIntent); // Millisec * Second * Minute
+//        if (calendar.getTime().compareTo(new Date()) < 0)
+//            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }
+
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5, pendingIntent); // Millisec * Second * Minute
 
 //        if (alarmManager != null) {
 //            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
@@ -105,16 +116,16 @@ public class MainActivity extends AppCompatActivity {
             if(i == 0)
             {
                 TextView nextDateView = (TextView)findViewById(R.id.nextDate);
+                TextView nextGameHourView = (TextView)findViewById(R.id.nextGameHour);
                 TextView nextTeamsView = (TextView)findViewById(R.id.nextTeams);
-                nextDateView.setText(gamesInfo.get(0).mDate + ' ' +  gamesInfo.get(0).mTime);
+                nextDateView.setText(gamesInfo.get(0).mDate);
+                nextGameHourView.setText(gamesInfo.get(0).mTime);
                 nextTeamsView.setText(gamesInfo.get(0).mTeam1 + " - " + gamesInfo.get(0).mTeam2);
             }
             else
             {
-                for (GameInfo game : gamesInfo) {
-                    nextGames += game.mDate + " " + game.mTime + " : "
-                            + game.mTeam1 + " - " + game.mTeam2 + " " + "\n\n";
-                }
+                nextGames += gamesInfo.get(i).mDate + " " + gamesInfo.get(i).mTime + " : "
+                        + gamesInfo.get(i).mTeam1 + " - " + gamesInfo.get(i).mTeam2 + " " + "\n\n";
             }
         }
         TextView otherGamesView =  (TextView)findViewById(R.id.otherGames);
