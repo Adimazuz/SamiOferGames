@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mDataManager = new DataManager(this);
 
         updateNotificationsToggleUI();
-        if(true /*mDataManager.isRemoteDataFetchingNeeded()*/) {
+        if(mDataManager.isRemoteDataFetchingNeeded()) {
             getGamesDataFromRemote();
         }
         else {

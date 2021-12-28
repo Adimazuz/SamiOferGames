@@ -81,7 +81,7 @@ public class DataManager {
             try {
                 SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
                 Date gameDate=date_format.parse(game.mDate);
-                if( gameDate.after(today) || game.mDate.equals(date_format.format(gameDate)))
+                if( gameDate.after(today) || game.mDate.equals(date_format.format(today)))
                 {
                     res.add(game);
                 }
