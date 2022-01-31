@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/green_grad_croped"
+    android:background="@color/main_bright"
     tools:context=".MainActivity">
+
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="214dp"
         android:layout_height="39dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
+        android:fontFamily="@font/varela"
         android:gravity="center"
-        android:text="המשחק הקרוב"
+        android:text="@string/next_game"
+        android:textColor="@color/main_dark"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,17 +30,19 @@
         android:id="@+id/imageView"
         android:layout_width="42dp"
         android:layout_height="36dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/notification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/notification" />
+        app:layout_constraintTop_toTopOf="parent">
+    </ImageView>
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
+        android:theme="@style/myThems"
         android:id="@+id/alertToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:onClick="onAlertsToggleClick"
         android:scaleX="1.5"
@@ -54,8 +59,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/varela"
         android:gravity="center"
         android:text="תאריך"
+        android:textColor="@color/main_dark"
         android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,6 +70,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
+        android:fontFamily="@font/varela"
+        android:textColor="@color/main_dark"
         android:id="@+id/nextTeams"
         android:layout_width="310dp"
         android:layout_height="55dp"
@@ -75,15 +84,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextDate" />
 
-    <TextView
-        android:id="@+id/otherGames"
-        android:layout_width="334dp"
-        android:layout_height="210dp"
+    <ListView
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
+        android:id="@+id/my_list_view"
+        android:layout_width="365dp"
+        android:layout_height="406dp"
         android:layout_marginTop="12dp"
-        android:gravity="right"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.337"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -91,15 +99,19 @@
         android:id="@+id/textView2"
         android:layout_width="115dp"
         android:layout_height="25dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/varela"
         android:gravity="right"
-        android:text=" משחקים הבאים:"
+        android:text="@string/next_games"
+        android:textColor="@color/main_dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.918"
+        app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nextTeams" />
 
     <TextView
+        android:fontFamily="@font/varela"
+        android:textColor="@color/main_dark"
         android:id="@+id/nextGameHour"
         android:layout_width="218dp"
         android:layout_height="48dp"

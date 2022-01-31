@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/layout_bg"
+    android:layout_marginVertical="200dp"
+    >
+
+    <TextView
+        android:textColor="@color/main_dark"
+        android:id="@+id/row_date"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:fontFamily="@font/varela"
+        android:text="12/10/21">
+    </TextView>
+
+    <TextView
+        android:textColor="@color/main_dark"
+        android:id="@+id/row_time"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:fontFamily="@font/varela"
+        android:text="15:46">
+    </TextView>
+
+    <TextView
+        android:textColor="@color/main_dark"
+        android:id="@+id/row_teams"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:fontFamily="@font/varela"
+        android:text="מכבי חיפה : הפועל כפר סבא">
+    </TextView>
+
+
+</LinearLayout>

@@ -25,7 +25,7 @@ public class DataManager {
     private String GAMES_DATA_KEY = "games_data";
     private String IS_NOTIFICATIONS_ACTIVE = "is_notifications_active";
     private String LAST_UPDATE_DATE = "last_update_date";
-    private int mDaysBetweenFetching = 3;
+    private int mDaysBetweenFetching = 1;
 
     DataManager(Context context){
         mSharedPreferences = context.getSharedPreferences("com.example.gamealerts", Context.MODE_PRIVATE);
