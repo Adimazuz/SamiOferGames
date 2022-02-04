@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,11 +35,9 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "SamiOferGameAlerts";
-
     private DataManager mDataManager;
     private ArrayList<GameInfo> mGames = new ArrayList<>();
 
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //hide the title bar
 
         mDataManager = new DataManager(this);
-
-        updateNotificationsToggleUI();
         if(mDataManager.isRemoteDataFetchingNeeded()) {
             getGamesDataFromRemote();
         }
@@ -59,14 +56,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNotificationsAlarm() {
-        Random rand = new Random();
-        int max = 60;
-        int min = 0;
-        int randomSecond = rand.nextInt((max - min) + 1) + min;
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 10);
-        calendar.set(Calendar.SECOND, randomSecond);
+        calendar.set(Calendar.HOUR_OF_DAY, mDataManager.getNotificationHour());
+        calendar.set(Calendar.MINUTE, mDataManager.getNotificationMinute());
+        calendar.set(Calendar.SECOND, 0);
 
         Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -77,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 5, pendingIntent); // Millisec * Second * Minute
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 3, pendingIntent); // Millisec * Second * Minute
 
     }
 
@@ -105,12 +98,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateNotificationsToggleUI() {
-        boolean isNotificationsActive = mDataManager.getIsNotificationsActive();
-        SwitchCompat s =  (SwitchCompat) findViewById(R.id.alertToggle);
-        s.setChecked(isNotificationsActive);
-    }
-
     private void  updateGamesInfo(ArrayList<GameInfo> gamesInfo) {
         gamesInfo.subList(1,gamesInfo.size() - 1);
         GameInfo next_game = gamesInfo.get(0);
@@ -121,39 +108,20 @@ public class MainActivity extends AppCompatActivity {
         nextDateView.setText(next_game.mDate);
         nextGameHourView.setText(next_game.mTime);
         nextTeamsView.setText(next_game.mTeam1 + " - " + gamesInfo.get(0).mTeam2);
-
-//        List<GameInfo> nextGames =new ArrayList<GameInfo>();
-
-//        for(int i=0; i< gamesInfo.size(); i++)
-//        {
-//            if(i == 0)
-//            {
-//                TextView nextDateView = (TextView)findViewById(R.id.nextDate);
-//                TextView nextGameHourView = (TextView)findViewById(R.id.nextGameHour);
-//                TextView nextTeamsView = (TextView)findViewById(R.id.nextTeams);
-//                nextDateView.setText(gamesInfo.get(0).mDate);
-//                nextGameHourView.setText(gamesInfo.get(0).mTime);
-//                nextTeamsView.setText(gamesInfo.get(0).mTeam1 + " - " + gamesInfo.get(0).mTeam2);
-//            }
-//            else
-//            {
-//                nextGames.add(gamesInfo.get(i).mDate + " " + gamesInfo.get(i).mTime + " : "
-//                        + gamesInfo.get(i).mTeam1 + " - " + gamesInfo.get(i).mTeam2 + " " + "\n\n");
-//            }
-//        }
         ListView otherGamesView =  (ListView)findViewById(R.id.my_list_view);
-        GamesAdapter adapter = new GamesAdapter(gamesInfo.subList(1,gamesInfo.size() - 1), this);
+        GamesAdapter adapter = new GamesAdapter(gamesInfo.subList(1,gamesInfo.size()), this);
         otherGamesView.setAdapter(adapter);
     }
 
-    public void onAlertsToggleClick(View view) {
-        SwitchCompat s = (SwitchCompat) view;
-        mDataManager.setIsNotificationsActive(s.isChecked());
+    public void refreshGamesClicked(View view) {
+        getGamesDataFromRemote();
+        Toast.makeText(getApplicationContext(),"Refreshed",Toast.LENGTH_SHORT).show();
     }
 
-    public void openSettingsActivity(View view) {
-//        Intent intent = new Intent(this, SettingsActivity.class);
-//        startActivity(intent);
+    public void settingsClicked(View view) {
+        Intent myIntent = new Intent(this, SettingsActivity.class);
+        this.startActivity(myIntent);
+//        Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
     }
 }
 

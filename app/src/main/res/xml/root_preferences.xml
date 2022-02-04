@@ -1,0 +1,31 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <PreferenceCategory app:title="@string/notifications"
+        android:theme="@style/PreferenceScreen" >
+        >
+
+        <SwitchPreferenceCompat
+            app:key="notification_switch"
+            android:defaultValue="true"
+            app:title="@string/notifications" />
+
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/days_of_week_values"
+            app:dialogTitle=""
+            app:entries="@array/days_of_week"
+            app:entryValues="@array/days_of_week_values"
+            app:key="ml_list"
+            app:title="@string/alert_days" />
+
+        <Preference
+            android:key="btnDateFilter"
+            android:title="@string/set_notification_time" />
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

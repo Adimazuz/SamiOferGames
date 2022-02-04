@@ -43,4 +43,36 @@
 
     </style>
 
+    <declare-styleable name="TimePreference">
+        <attr name="showText" format="boolean" />
+        <attr name="labelPosition" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <style name="PreferenceScreen" parent="Theme.AppCompat">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="colorPrimary">#ff0000</item>
+        <item name="colorPrimaryDark">#ff0000</item>
+        <item name="colorAccent">#ff0000</item>
+        <item name="android:background">#CCCCCC</item>
+    </style>
+
+<!--    <style name="myTimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">-->
+<!--        <item name="android:numbersTextColor">#ffffff</item>-->
+<!--        <item name="android:numbersBackgroundColor">#ff0000</item>-->
+<!--        <item name="android:numbersSelectorColor">#88000000</item>-->
+<!--        <item name="android:headerBackground">$ff0000</item>-->
+<!--    </style>-->
+
+<!--    <style name="AppTheme" parent="AppBaseTheme">-->
+<!--        <item name="android:timePickerDialogTheme">@style/myTimePickerDialogStyle</item>-->
+<!--    </style>-->
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
+        ....
+        <item name="android:textColorPrimary">#ff0000</item>
+    </style>
+
 </resources>

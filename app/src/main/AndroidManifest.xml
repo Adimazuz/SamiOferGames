@@ -6,9 +6,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/stadium"
         android:label="Sami Ofer Game Alerts"
-        android:roundIcon="@mipmap/stadium"
         android:layoutDirection="ltr"
+        android:roundIcon="@mipmap/stadium"
         android:theme="@style/Theme.GameAlerts">
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

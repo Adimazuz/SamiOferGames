@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,21 +15,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
 
 public class DataManager {
 
     private SharedPreferences mSharedPreferences;
     private String GAMES_DATA_KEY = "games_data";
-    private String IS_NOTIFICATIONS_ACTIVE = "is_notifications_active";
+    private String IS_NOTIFICATIONS_ACTIVE = "notification_switch";
     private String LAST_UPDATE_DATE = "last_update_date";
+    private String NOTIFICATION_HOUR = "notification_hour";
+    private String NOTIFICATION_MINUTE = "notification_minute";
+    private String NOTIFICATION_DAYS = "ml_list";
     private int mDaysBetweenFetching = 1;
 
     DataManager(Context context){
-        mSharedPreferences = context.getSharedPreferences("com.example.gamealerts", Context.MODE_PRIVATE);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public void setGamesData(ArrayList<GameInfo> gamesData) {
@@ -97,8 +103,19 @@ public class DataManager {
         return mSharedPreferences.getBoolean(IS_NOTIFICATIONS_ACTIVE,true);
     }
 
-    public void setIsNotificationsActive(boolean isActive) {
-        mSharedPreferences.edit().putBoolean(IS_NOTIFICATIONS_ACTIVE,isActive).apply();
+    public int getNotificationHour() {
+        return mSharedPreferences.getInt(NOTIFICATION_HOUR,9);
+    }
+    public void setNotificationHour(int hour) {
+        mSharedPreferences.edit().putInt(NOTIFICATION_HOUR, hour).apply();
+    }
+
+    public int getNotificationMinute() {
+        return mSharedPreferences.getInt(NOTIFICATION_MINUTE,0);
+    }
+
+    public void setNotificationMinute(int minute) {
+        mSharedPreferences.edit().putInt(NOTIFICATION_MINUTE, minute).apply();
     }
 
     public void setLastRemoteFetchDate(Date date) {
@@ -157,12 +174,14 @@ public class DataManager {
         });
     }
 
-    public void setIsDayNotified(Days day, boolean notify){
-        mSharedPreferences.edit().putBoolean(day.name(), notify).apply();
-    }
+    public boolean isTodayNotified(){
+        Calendar calendar = Calendar.getInstance();
+        int intDay = calendar.get(Calendar.DAY_OF_WEEK);
+        DaysEnum day = DaysEnum.values()[intDay - 1];
 
-    public boolean getIsDayNotified(Days day){
-        return mSharedPreferences.getBoolean(day.name(),true);
+        Set<String> notifiedDays = mSharedPreferences.getStringSet(NOTIFICATION_DAYS,  Collections.emptySet());
+        boolean isNotificationsActive = mSharedPreferences.getBoolean(IS_NOTIFICATIONS_ACTIVE, true);
+        return notifiedDays.contains(day.toString()) && isNotificationsActive;
     }
 
 }
