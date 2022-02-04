@@ -27,3 +27,4 @@ output.json
 google-services.json
 
 # Android Profiling
+*.hprof
