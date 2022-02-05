@@ -1,4 +1,4 @@
-package com.example.gamealerts;
+package com.gamealerts;
 
 import android.content.Context;
 import android.content.res.TypedArray;
