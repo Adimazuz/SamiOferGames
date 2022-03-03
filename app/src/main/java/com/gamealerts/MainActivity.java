@@ -90,17 +90,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void  updateGamesInfo(ArrayList<GameInfo> gamesInfo) {
-        gamesInfo.subList(1,gamesInfo.size() - 1);
-        GameInfo next_game = gamesInfo.get(0);
-
         TextView nextDateView = (TextView)findViewById(R.id.nextDate);
         TextView nextGameHourView = (TextView)findViewById(R.id.nextGameHour);
         TextView nextTeamsView = (TextView)findViewById(R.id.nextTeams);
+
+        if (gamesInfo.size() == 0 ) {
+            nextDateView.setText("אין משחקים קרובים");
+            return;
+        }
+        GameInfo next_game = gamesInfo.get(0);
+        gamesInfo.subList(1, gamesInfo.size());
         nextDateView.setText(next_game.mDate);
         nextGameHourView.setText(next_game.mTime);
         nextTeamsView.setText(next_game.mTeam1 + " - " + gamesInfo.get(0).mTeam2);
-        ListView otherGamesView =  (ListView)findViewById(R.id.my_list_view);
-        GamesAdapter adapter = new GamesAdapter(gamesInfo.subList(1,gamesInfo.size()), this);
+        ListView otherGamesView = (ListView) findViewById(R.id.my_list_view);
+        GamesAdapter adapter = new GamesAdapter(gamesInfo.subList(1, gamesInfo.size()), this);
         otherGamesView.setAdapter(adapter);
     }
 
@@ -112,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
     public void settingsClicked(View view) {
         Intent myIntent = new Intent(this, SettingsActivity.class);
         this.startActivity(myIntent);
-//        Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
     }
 }
 
