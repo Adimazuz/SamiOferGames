@@ -1,6 +1,8 @@
 package com.gamealerts;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GameInfo implements Serializable {
     public String mTeam1;
@@ -14,5 +16,10 @@ public class GameInfo implements Serializable {
         mTeam2 = team2;
         mDate = date;
         mTime = time;
+    }
+    public boolean isGameToday() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String today = dateFormat.format(new Date());
+        return this.mDate.equals(today);
     }
 }

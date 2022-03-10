@@ -31,15 +31,9 @@ class NotificationSender {
             return;
         }
         GameInfo closestGame = allGames.get(0);
-        if (mDataManager.isTodayNotified() && isGameToday(closestGame)) {
+        if (mDataManager.isTodayNotified() && closestGame.isGameToday()) {
             createGameNotification(closestGame);
         }
-    }
-
-    private boolean isGameToday(GameInfo gameInfo) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String today = dateFormat.format(new Date());
-        return gameInfo.mDate.equals(today);
     }
 
     private void createGameNotification(GameInfo gameInfo) {

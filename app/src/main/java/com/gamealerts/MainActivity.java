@@ -1,7 +1,5 @@
 package com.gamealerts;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,8 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,22 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNotificationsAlarm() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, mDataManager.getNotificationHour());
-        calendar.set(Calendar.MINUTE, mDataManager.getNotificationMinute());
-        calendar.set(Calendar.SECOND, 0);
-
-        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        if (calendar.getTime().compareTo(new Date()) < 0)
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 3, pendingIntent); // Millisec * Second * Minute
-
+        new AlarmSetter().setAlarm(getApplicationContext());
     }
 
     private void getGamesDataFromRemote() {
@@ -99,12 +82,19 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         GameInfo next_game = gamesInfo.get(0);
-        gamesInfo.subList(1, gamesInfo.size());
+        List<GameInfo> later_games = gamesInfo.subList(1, gamesInfo.size());
+
         nextDateView.setText(next_game.mDate);
         nextGameHourView.setText(next_game.mTime);
         nextTeamsView.setText(next_game.mTeam1 + " - " + gamesInfo.get(0).mTeam2);
+
+        if(next_game.isGameToday()) {
+            nextDateView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alert));
+            nextGameHourView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alert));
+        }
+
         ListView otherGamesView = (ListView) findViewById(R.id.my_list_view);
-        GamesAdapter adapter = new GamesAdapter(gamesInfo.subList(1, gamesInfo.size()), this);
+        GamesAdapter adapter = new GamesAdapter(later_games, this);
         otherGamesView.setAdapter(adapter);
     }
 

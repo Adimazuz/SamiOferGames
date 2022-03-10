@@ -11,4 +11,5 @@
     <color name="main_dark">#3A4A3D</color>
     <color name="secondery_bright">#F3EDE0</color>
     <color name="secobdery_dark">#D7FBE8</color>
+    <color name="alert">#E45826</color>
 </resources>
