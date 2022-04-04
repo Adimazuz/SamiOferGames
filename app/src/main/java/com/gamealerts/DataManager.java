@@ -17,9 +17,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 public class DataManager {
@@ -178,8 +180,8 @@ public class DataManager {
         Calendar calendar = Calendar.getInstance();
         int intDay = calendar.get(Calendar.DAY_OF_WEEK);
         DaysEnum day = DaysEnum.values()[intDay - 1];
-
-        Set<String> notifiedDays = mSharedPreferences.getStringSet(NOTIFICATION_DAYS,  Collections.emptySet());
+        Set<String> allDays = new HashSet<>(Arrays.asList("SUN", "MON", "TUE","WED","THU","FRI","SAT"));
+        Set<String> notifiedDays = mSharedPreferences.getStringSet(NOTIFICATION_DAYS,  allDays);
         boolean isNotificationsActive = mSharedPreferences.getBoolean(IS_NOTIFICATIONS_ACTIVE, true);
         return notifiedDays.contains(day.toString()) && isNotificationsActive;
     }
