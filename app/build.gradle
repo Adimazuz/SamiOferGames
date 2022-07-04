@@ -10,8 +10,8 @@ android {
         applicationId "com.gamealerts"
         minSdk 21
         targetSdk 31
-        versionCode 2
-        versionName "2"
+        versionCode 5
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

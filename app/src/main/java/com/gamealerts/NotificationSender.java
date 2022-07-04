@@ -26,6 +26,7 @@ class NotificationSender {
     }
 
     public void sendNotificationIfNeeded() {
+        mDataManager.getGamesDataFromRemote();
         ArrayList<GameInfo> allGames = mDataManager.getGamesData();
         if(allGames.size() == 0) {
             return;

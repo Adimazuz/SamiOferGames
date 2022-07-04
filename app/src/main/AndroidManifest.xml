@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/my_icon3"
-        android:label="Sami Ofer Game Alerts"
+        android:label="Sammy Ofer Game Alerts"
         android:layoutDirection="ltr"
         android:roundIcon="@mipmap/my_icon3"
         android:theme="@style/Theme.GameAlerts">
