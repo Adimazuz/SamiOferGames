@@ -10,14 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 class NotificationSender {
-    private Context mContext;
-    private DataManager mDataManager;
+    private final Context mContext;
+    private final DataManager mDataManager;
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
 
     NotificationSender(Context context) {
@@ -25,19 +23,38 @@ class NotificationSender {
         mDataManager = new DataManager(context);
     }
 
+
     public void sendNotificationIfNeeded() {
-        mDataManager.getGamesDataFromRemote();
-        ArrayList<GameInfo> allGames = mDataManager.getGamesData();
-        if(allGames.size() == 0) {
+        ArrayList<GameInfo> localGames = mDataManager.getLocalGamesData();
+        if (isNotificationNeeded(localGames)) {
+            GameInfo closestGame = localGames.get(0);
+            createGameNotification(closestGame);
             return;
         }
-        GameInfo closestGame = allGames.get(0);
-        if (mDataManager.isTodayNotified() && closestGame.isGameToday()) {
+        mDataManager.getDataFromRemoteAndUseCallback(this::sendNotificationIfNeededCallback);
+    }
+
+
+    public boolean isNotificationNeeded(ArrayList<GameInfo> games) {
+        if(games.size() == 0) {
+            return false;
+        }
+        GameInfo closestGame = games.get(0);
+        return mDataManager.isTodayNotified() && closestGame.isGameToday();
+    }
+
+    public void sendNotificationIfNeededCallback(ArrayList<GameInfo> games) {
+        if(games.size() == 0) {
+            return;
+        }
+        GameInfo closestGame = games.get(0);
+        if (isNotificationNeeded(games)) {
             createGameNotification(closestGame);
         }
     }
 
-    private void createGameNotification(GameInfo gameInfo) {
+
+        private void createGameNotification(GameInfo gameInfo) {
         String notificationContent = String.format("משחק יתקיים היום בשעה %s הזהר מפקקים", gameInfo.mTime);
         String notificationTitle = "משחק היום בסמי עופר";
 

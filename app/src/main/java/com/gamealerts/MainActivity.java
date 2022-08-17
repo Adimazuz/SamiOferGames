@@ -1,6 +1,7 @@
 package com.gamealerts;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide(); //hide the title bar
+        Objects.requireNonNull(getSupportActionBar()).hide(); //hide the title bar
 
         mDataManager = new DataManager(this);
         if(mDataManager.isRemoteDataFetchingNeeded()) {
@@ -45,14 +47,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNotificationsAlarm() {
-        new AlarmSetter().setAlarm(getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            new AlarmSetter().setAlarm(getApplicationContext());
+        }
     }
 
     private void getGamesDataFromRemote() {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("games");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshots) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshots) {
                 mGames = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : dataSnapshots.getChildren()) {
                     String team1 = (String) dataSnapshot.child("team1").getValue();
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void  updateGamesInfo(ArrayList<GameInfo> gamesInfo) {
+    private void  updateGamesInfo(@NonNull ArrayList<GameInfo> gamesInfo) {
         TextView nextDateView = (TextView)findViewById(R.id.nextDate);
         TextView nextGameHourView = (TextView)findViewById(R.id.nextGameHour);
         TextView nextTeamsView = (TextView)findViewById(R.id.nextTeams);
@@ -86,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         nextDateView.setText(next_game.mDate);
         nextGameHourView.setText(next_game.mTime);
-        nextTeamsView.setText(next_game.mTeam1 + " - " + gamesInfo.get(0).mTeam2);
+        nextTeamsView.setText(String.format("%s - %s", next_game.mTeam1, gamesInfo.get(0).mTeam2));
 
         if(next_game.isGameToday()) {
             nextDateView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alert));
