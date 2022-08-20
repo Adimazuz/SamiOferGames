@@ -26,8 +26,12 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        DataManager dm = new DataManager(this.getContext());
-        dm.setNotificationHour(hourOfDay);
-        dm.setNotificationMinute(minute);
+        DataManager dataManager = new DataManager(this.getContext());
+        AlarmSetter alarmSetter = new AlarmSetter();
+        dataManager.setNotificationHour(hourOfDay);
+        dataManager.setNotificationMinute(minute);
+        alarmSetter.setAlarm(this.getContext());
+
+
     }
 }
