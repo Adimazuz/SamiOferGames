@@ -26,7 +26,7 @@ class NotificationSender {
 
     public void sendNotificationIfNeeded() {
         ArrayList<GameInfo> localGames = mDataManager.getLocalGamesData();
-        if (localGames.size() > 0 && isNotificationNeeded(localGames)) {
+        if (isNotificationNeeded(localGames)) {
             GameInfo closestGame = localGames.get(0);
             createGameNotification(closestGame);
             return;
