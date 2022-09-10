@@ -25,12 +25,6 @@ class NotificationSender {
 
 
     public void sendNotificationIfNeeded() {
-        ArrayList<GameInfo> localGames = mDataManager.getLocalGamesData();
-        if (isNotificationNeeded(localGames)) {
-            GameInfo closestGame = localGames.get(0);
-            createGameNotification(closestGame);
-            return;
-        }
         mDataManager.getDataFromRemoteAndUseCallback(this::sendNotificationIfNeededCallback);
     }
 
